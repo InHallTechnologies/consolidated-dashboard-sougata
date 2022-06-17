@@ -1,0 +1,72 @@
+.auth-page-main-container {
+    height: 100vh;
+    overflow: hidden;
+}
+.auth-page-navigation-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+   
+}
+
+
+.signup-button {
+    font-weight: bold;
+    color: #469DA4;
+}
+
+.auth-headline {
+    font-size: 2rem;
+    width: 500px;
+}
+
+.auth-input-label {
+    margin-top: 30px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    width: 500px;
+}
+
+.auth-page-content {
+    display: flex;
+    margin-top: 30px;
+}
+
+.auth-page-box {
+    max-width: 500px;
+    display: flex;
+    padding-top: 90px;
+    flex-direction: column;
+   
+}
+
+.auth-box-input {
+    width: 500px;
+    max-width: 500px;
+}
+
+.forgot-password {
+   width: 500px;
+   text-align: right;
+   font-weight: 400;
+   margin-top: 5px;
+   font-size: 0.9rem;
+}
+
+.auth-box-button {
+    margin-top: 30px;
+    width: 500px;
+   
+}
+
+.auth-page-illustration {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.illustration-image {
+   width: 70%;
+}

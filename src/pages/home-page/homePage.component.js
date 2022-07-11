@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AuthBox from "../../Components/AuthBox/AuthBox.component";
 import './homePage.styles.css';
 import logo from '../../assets/logo.svg';
@@ -6,8 +6,29 @@ import { FiSearch } from 'react-icons/fi';
 import { Button } from "@chakra-ui/react";
 import SonarCloudProjectList from "../../Components/SonarCloudProjectList/SonarCloudProjectList.component";
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop.component";
+import IZAnalyserProjectList from "../../Components/IzAnalyserProjectList/IzAnalyserProjectList.component";
+import { useSearchParams } from "react-router-dom";
 
 const HomePage = () => {
+    const [currentTab, setCurrentTab] = useState("SonarCloud");
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    useEffect(() => {
+        if (!searchParams.get('viewport')) {
+            setSearchParams({viewport: 'SonarCloud'});
+        }
+    }, []);
+
+    useEffect(() => {
+        if (searchParams.get('viewport')) {
+            setCurrentTab(searchParams.get('viewport'))
+        }
+        
+    }, [searchParams])
+
+    const handleTabShift = tabType => {
+        setSearchParams({viewport: tabType})
+    }
 
     return(
         <AuthBox className="home-page-main-container main-pages-container">
@@ -19,14 +40,31 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="home-page-tab-container">
-                <Button padding={"10px 35px"} color='white' backgroundColor='teal' borderRadius={'100px'} className="tab-button active">SonarCloud</Button>
-                <Button padding={"10px 35px"} backgroundColor='#FEE19D' borderRadius={'100px'} className="tab-button non-active">AzureDevbops</Button>
-                <Button padding={"10px 35px"} backgroundColor='#FEE19D' borderRadius={'100px'} className="tab-button non-active">Qualys</Button>
+                <Button padding={"10px 35px"} onClick={_ => handleTabShift("SonarCloud")} color={currentTab === "SonarCloud" ? "white": "#464646"} backgroundColor={currentTab === "SonarCloud" ? 'teal' : '#FEE19D'} borderRadius={'100px'} className={currentTab === "SonarCloud" ?"tab-button active": 'tab-button non-active'}>Sonar Cloud Scan</Button>
+                <Button padding={"10px 35px"} onClick={_ => handleTabShift("IZAnalyser")} color={currentTab === "IZAnalyser" ? "white": "#464646"} backgroundColor={currentTab === "IZAnalyser" ? 'teal' : '#FEE19D'} borderRadius={'100px'} className={currentTab === "IZAnalyser" ?"tab-button active": 'tab-button non-active'}>IZ Analyser Scan</Button>
+                <Button padding={"10px 35px"} backgroundColor='#FEE19D' borderRadius={'100px'} className="tab-button non-active">Fortify On Demand Scan</Button>
             </div>
 
-            <div>
-                <SonarCloudProjectList />
-            </div>
+            {
+                currentTab === "SonarCloud"
+                ?
+                <div>
+                    <SonarCloudProjectList />
+                </div>
+                :
+                null
+            }
+           
+            {
+                currentTab === "IZAnalyser"
+                ?
+                <div>
+                    <IZAnalyserProjectList />
+                </div>
+                :
+                null
+            }
+            
 
             <ScrollToTop />
         </AuthBox>
@@ -34,3 +72,6 @@ const HomePage = () => {
 }
 
 export default HomePage;
+
+
+// demisto-snow-dfn-proxy

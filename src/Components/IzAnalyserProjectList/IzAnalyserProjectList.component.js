@@ -1,11 +1,11 @@
 import { CircularProgress } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { getProjectList } from '../../backend/sonar-cloud-api';
+import { getProjectList } from '../../backend/iz-analyser-api';
 import CheckBox from '../CheckBox/CheckBox.component';
-import SonarProjectListArch from '../SonarProjectListArch/SonarProjectListArch.component';
-import './SonarCloudProjectList.styles.css';
+import IZAnalyserProjectListArch from '../IZAnalyserProjectListArch/IZAnalyserProjectListArch.component';
+import './IZAnalyserProjectList.styles.css';
 
-const SonarCloudProjectList = () => {
+const IZAnalyserProjectList = () => {
     const [projectList, setProjectList] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -23,7 +23,7 @@ const SonarCloudProjectList = () => {
     return (
         <div className='sonar-cloud-project-list-container'>
             <div className='sonar-cloud-project-list-content'>
-                <h1 className='sonar-cloud-project-headline'>Sonar Cloud Project List</h1> 
+                <h1 className='sonar-cloud-project-headline'>IZ Analyser Project List</h1> 
                 {
                     loading
                     ?
@@ -33,7 +33,7 @@ const SonarCloudProjectList = () => {
                     :
                     <div className='sonar-cloud-project-list'>
                         {
-                            projectList.map((item, index) => <SonarProjectListArch project={item} key={item.key} index={index} />)
+                            projectList.map((item, index) => <IZAnalyserProjectListArch project={item} key={item.key} index={index} />)
                         } 
                     </div>
                 }
@@ -78,4 +78,4 @@ const SonarCloudProjectList = () => {
     )
 }
 
-export default SonarCloudProjectList;
+export default IZAnalyserProjectList;

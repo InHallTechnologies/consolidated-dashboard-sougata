@@ -1,0 +1,42 @@
+.sonar-cloud-project-list-container {
+    display: flex;
+}
+
+.sonar-cloud-project-list-content {
+    flex: 0.75;
+}
+.sonar-cloud-project-list-filters {
+    flex: 0.25;
+}
+.sonar-cloud-project-headline {
+    font-size: 1.8rem;
+    margin-top: 20px;
+}
+.sonar-cloud-project-list {
+    margin-top: 10px;
+}
+
+.list-filter-separator {
+    min-height: 500px;
+    background-color: #e5e4e4;
+    width: 2px;
+    margin: 0 40px;
+    margin-top: 30px;
+}
+
+.sonar-cloud-filter-list {
+    margin-top: 10px;
+}
+
+.sonar-cloud-filter {
+    border: 1px solid #B7B7B7;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 20px ;
+    
+}
+
+.filter-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}

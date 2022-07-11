@@ -28,6 +28,7 @@
 .home-page-tab-container {
     display: flex;
     margin-top: 30px;
+    margin-bottom: 15px;
 }
 
 .tab-button {

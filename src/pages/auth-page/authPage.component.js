@@ -4,7 +4,7 @@ import logo from '../../assets/logo.svg';
 import illustration from  '../../assets/illus.png';
 import { Link, useNavigate } from "react-router-dom";
 import { Input, Button } from '@chakra-ui/react'
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { firebaseAuth } from "../../backend/firebase-handler";
 import AuthBox from "../../Components/AuthBox/AuthBox.component";
 
@@ -13,6 +13,8 @@ const AuthPage = () => {
     const passwordRef = useRef();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    signOut(firebaseAuth)
 
     const handleLogin = async () => {
         try {

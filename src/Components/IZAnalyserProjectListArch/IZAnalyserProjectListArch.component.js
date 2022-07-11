@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import './SonarProjectListArch.styles.css';
+import './IZAnalyserProjectListArch.styles.css';
 import hashtag from '../../assets/hashtag.svg';
 import ProjectInfoContainer from "../ProjectInfoContainer/ProjectInfoContainer.component";
 import aroma from '../../assets/aroma.svg';
@@ -7,20 +7,21 @@ import copy from '../../assets/copy.svg';
 import lock from '../../assets/lock.svg'
 import bugs from '../../assets/bugs.svg';
 import moment from "moment";
-import { gerProjectDetails, getProjectMetaData } from "../../backend/sonar-cloud-api";
+import { getProjectMetaData, gerProjectDetails } from "../../backend/iz-analyser-api";
 
-const SonarProjectListArch = ({ project, index }) => {
+const IZAnalyserProjectListArch = ({ project, index }) => {
     const [projectData, setProjectData] = useState({});
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+   
     useEffect(() => {
         const fetchDetails = async () => {
             let temp = {};
-            const response = await gerProjectDetails(project.key);
             const metaResponse = await getProjectMetaData(project.key);
+            const response = await gerProjectDetails(project.key);
             response.component.measures.forEach(item => {
                 temp[item.metric] = item.value;
             })
-            temp = {...temp, ...metaResponse.branches[0].status}
+            temp = {...temp, ...metaResponse};
             setProjectData(temp);
             setLoading(false)
         }
@@ -59,4 +60,4 @@ const SonarProjectListArch = ({ project, index }) => {
     )
 }
 
-export default SonarProjectListArch;
+export default IZAnalyserProjectListArch;

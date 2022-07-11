@@ -14,6 +14,7 @@ const AuthPage = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+
     const handleLogin = async () => {
         try {
             setLoading(true);

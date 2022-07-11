@@ -14,8 +14,6 @@ const AuthPage = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    signOut(firebaseAuth)
-
     const handleLogin = async () => {
         try {
             setLoading(true);

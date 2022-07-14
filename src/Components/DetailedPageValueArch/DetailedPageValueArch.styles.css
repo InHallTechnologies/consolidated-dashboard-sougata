@@ -1,0 +1,33 @@
+.detailed-page-card-arch-container {
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+
+}
+.detailed-page-card-arch-title-container {
+    display: flex;
+    align-items: center;
+}
+
+.detailed-page-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.detailed-page-card-arch-metric {
+    margin-left: 10px;
+}
+
+.detailed-page-card-arch-value-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: baseline;
+}
+.detailed-page-card-arch-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.detailed-page-card-arch-value-subtext {
+    margin-left: 10px;
+    font-size: 0.9rem;
+}

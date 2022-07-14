@@ -1,0 +1,61 @@
+.detailed-page-main-content {
+    margin-top: 25px;
+}
+
+.detailed-page-meta-detail-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.project-name-container {
+    margin-left: 10px;
+}
+
+.project-name {
+    font-weight: bold;
+    color: #464646;
+    margin-left: 0px;
+    font-size: 1.3rem;
+}
+
+.project-organization-name {
+    font-size: 1.1rem;
+}
+
+.quality-gate-status {
+    color: #43A047;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.quality-gate-label {
+    font-size: 1.1rem;
+}
+
+.detailed-page-cards-container {
+    display: grid;
+    grid-gap: 20px;
+    margin-top: 25px;
+    background-color: #FAFAFA;
+    padding: 30px 20px;
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+}
+
+
+
+.detailed-page-meta-data-container {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 30px;
+}
+
+.detailed-page-meta-data {
+    border: 1.5px solid #B7B7B7;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.detailed-page-meta-data-label {
+    font-weight: bold;
+}

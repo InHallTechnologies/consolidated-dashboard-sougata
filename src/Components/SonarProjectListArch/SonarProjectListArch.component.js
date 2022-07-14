@@ -13,8 +13,7 @@ import { Link } from "react-router-dom";
 const SonarProjectListArch = ({ project, index }) => {
     const [projectData, setProjectData] = useState({});
     const [loading, setLoading] = useState(true);
-
-
+    
     useEffect(() => {
         const fetchDetails = async () => {
             let temp = {};
@@ -23,9 +22,12 @@ const SonarProjectListArch = ({ project, index }) => {
             response.component.measures.forEach(item => {
                 temp[item.metric] = item.value;
             })
+
             temp = {...temp, ...metaResponse.branches[0].status}
+
             setProjectData(temp);
             setLoading(false);
+
         }
         fetchDetails();
     }, []);
@@ -47,7 +49,7 @@ const SonarProjectListArch = ({ project, index }) => {
                     </div>
                 </div>
                 <div className="project-status-container">
-                    <p className="project-status-label">PASSED</p>
+                    <p className="project-status-label">{projectData.qualityGateStatus}</p>
                 </div> 
                 </div>
 

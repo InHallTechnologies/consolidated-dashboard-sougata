@@ -4,7 +4,7 @@ import './detailedResultPage.styles.css';
 import logo from '../../assets/logo.svg'
 import { Button } from "@chakra-ui/react";
 import DetailedPageValueArch from "../../Components/DetailedPageValueArch/DetailedPageValueArch.component";
-import { getProjectDetails, getProjectFullData } from "../../backend/sonar-cloud-api";
+import { getProjectDetails, getProjectFullData, getProjectMetaData } from "../../backend/sonar-cloud-api";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 
@@ -16,10 +16,12 @@ const DetailedResultPage = () => {
     const [ncloc, setNcloc] = useState(0);
     const [loading, setLoading] = useState(true);
     
+    
     useEffect(() => {
         const fetchDate = async () => {
             const metadata = await getProjectDetails(params.projectId);
-            setMetaData(metadata);
+            const metaDataForQualityGate = await getProjectMetaData(params.projectId)
+            setMetaData({...metadata, qualityGate:metaDataForQualityGate.branches[0].status.qualityGateStatus });
         }
         getProjectFullData(params.projectId).then((result) => {
             setDetails(result.details);
@@ -27,6 +29,8 @@ const DetailedResultPage = () => {
             setLoading(false);
         });
         fetchDate();
+
+        
     }, []);
 
     return (
@@ -46,7 +50,7 @@ const DetailedResultPage = () => {
                     </div>
 
                     <div>
-                        <h1 className="quality-gate-status">PASSED</h1>
+                        <h1 className="quality-gate-status">{metaData.qualityGate}</h1>
                         <p className="quality-gate-label">Quality Gate</p>
                     </div>
                 </div>

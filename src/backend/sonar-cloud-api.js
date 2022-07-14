@@ -31,7 +31,6 @@ export const getProjectFullData = (key) => {
         let temp = {}
         const projectDetails = await gerProjectDetails(key);
         const projectMetada = await getProjectMetaData(key);
-        console.log(projectDetails)
         projectDetails.component.measures.forEach(item => {
             temp[item.metric] = item.value
         });

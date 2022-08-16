@@ -10,8 +10,8 @@ function App() {
     <Routes>
       <Route path='/' element={<HomePage />} />
       <Route path='/auth-user' element={<AuthPage />} />
-      <Route path='/:projectId' element={<DetailedResultPage />} />
-
+      <Route path='/sonar-cloud/:projectId' element={<DetailedResultPage />} />
+      <Route path='/iz-analyser/:projectId' element={<DetailedResultPage />} />
     </Routes>
   );
 }

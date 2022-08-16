@@ -63,6 +63,24 @@
     margin-top: 20px;
 }
 
+.bug-action-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 20px;
+    
+}
+
+.bug-action-buttons-container {
+    font-size: 0.9rem;
+    display: flex;
+}
+
+.bug-action-button {
+    font-weight: bold;
+    color: teal;
+}
+
 .last-analysis-para {
     text-align: right;
     font-size: 0.8rem;

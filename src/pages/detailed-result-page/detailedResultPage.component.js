@@ -5,8 +5,9 @@ import logo from '../../assets/logo.svg'
 import { Button } from "@chakra-ui/react";
 import DetailedPageValueArch from "../../Components/DetailedPageValueArch/DetailedPageValueArch.component";
 import { getProjectDetails, getProjectFullData, getProjectMetaData } from "../../backend/sonar-cloud-api";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import moment from "moment";
+import { gerProjectDetails, getProjectMetaData as getIzPRojectMeta, getProjectFullData as getIzFullMData, getQualityGate } from "../../backend/iz-analyser-api";
 
 const DetailedResultPage = () => {
 
@@ -15,23 +16,45 @@ const DetailedResultPage = () => {
     const [metaData, setMetaData] = useState({});
     const [ncloc, setNcloc] = useState(0);
     const [loading, setLoading] = useState(true);
-    
+    const path = useLocation();
     
     useEffect(() => {
-        const fetchDate = async () => {
-            const metadata = await getProjectDetails(params.projectId);
-            const metaDataForQualityGate = await getProjectMetaData(params.projectId)
-            setMetaData({...metadata, qualityGate:metaDataForQualityGate.branches[0].status.qualityGateStatus });
+        if (path.pathname.includes('sonar-cloud')) {
+            const fetchDate = async () => {
+                const metadata = await getProjectDetails(params.projectId);
+                const metaDataForQualityGate = await getProjectMetaData(params.projectId)
+                setMetaData({...metadata, qualityGate:metaDataForQualityGate.branches[0].status.qualityGateStatus });
+            }
+            getProjectFullData(params.projectId).then((result) => {
+                setDetails(result.details);
+                setNcloc(result.linesOfCode);
+                setLoading(false);
+            });
+            fetchDate();
+        }else {
+            const fetchDate = async () => {
+                const metadata = await gerProjectDetails(params.projectId);
+                const qualityGate = await getQualityGate(params.projectId);
+                setMetaData({...metadata, qualityGate: qualityGate.branches[0].status.qualityGateStatus });
+            }
+            
+            fetchDate();
         }
-        getProjectFullData(params.projectId).then((result) => {
-            setDetails(result.details);
-            setNcloc(result.linesOfCode);
-            setLoading(false);
-        });
-        fetchDate();
-
         
-    }, []);
+    }, [path.pathname]);
+
+    useEffect(() => {
+        if (!metaData.name){
+            getIzFullMData(params.projectId).then((result) => {
+                setDetails(result.details);
+                setNcloc(result.linesOfCode);
+                setMetaData({...metaData, name: result.name, visibility: result.visibility, organization:'diageo-analyzer.integralzone'})
+                setTimeout(() => {
+                    setLoading(false);
+                }, 900)
+            });
+        }
+    }, [metaData])
 
     return (
         <AuthBox className="home-page-main-container main-pages-container">
@@ -50,7 +73,7 @@ const DetailedResultPage = () => {
                     </div>
 
                     <div>
-                        <h1 className="quality-gate-status">{metaData.qualityGate}</h1>
+                        <h1 className="quality-gate-status" style={{color: metaData.qualityGate === "PASSED"?'#43A047':'red'}}>{metaData.qualityGate}</h1>
                         <p className="quality-gate-label">Quality Gate</p>
                     </div>
                 </div>

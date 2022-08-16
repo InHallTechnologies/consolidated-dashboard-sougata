@@ -9,6 +9,7 @@ import bugs from '../../assets/bugs.svg';
 import moment from "moment";
 import { gerProjectDetails, getProjectMetaData } from "../../backend/sonar-cloud-api";
 import { Link } from "react-router-dom";
+import { Link as ChakraLink } from '@chakra-ui/react'
 
 const SonarProjectListArch = ({ project, index }) => {
     const [projectData, setProjectData] = useState({});
@@ -25,7 +26,7 @@ const SonarProjectListArch = ({ project, index }) => {
 
             temp = {...temp, ...metaResponse.branches[0].status}
 
-            setProjectData(temp);
+            setProjectData({...temp, qualityGateStatus: temp.qualityGateStatus === "OK"? "PASSED":"FAILED"});
             setLoading(false);
 
         }
@@ -35,7 +36,7 @@ const SonarProjectListArch = ({ project, index }) => {
     
     return (
         <div className="sonar-project-list-arch-container scale-up-center" >
-            <Link to={project.key}>
+            <Link to={`/sonar-cloud/${project.key}`}>
                 <div className="project-top-info-container">
                 <div>
                     <div className="project-title-container">
@@ -48,7 +49,7 @@ const SonarProjectListArch = ({ project, index }) => {
                         <p className="meta-data bold-data">{`</> ${projectData.ncloc?projectData.ncloc:0} Lines of code`}</p>
                     </div>
                 </div>
-                <div className="project-status-container">
+                <div className="project-status-container" style={{backgroundColor: projectData.qualityGateStatus === "PASSED"?"#43A047":'red'}}>
                     <p className="project-status-label">{projectData.qualityGateStatus}</p>
                 </div> 
                 </div>
@@ -59,9 +60,21 @@ const SonarProjectListArch = ({ project, index }) => {
                     <ProjectInfoContainer loading={loading} title={"CODE SMELLS"} value={projectData.codeSmells} icon={<img src={aroma} height='20px' width={'20px'} />} />
                     <ProjectInfoContainer loading={loading} title={"DUPLICATIONS"} value={0} icon={<img src={copy} height='20px' width={'20px'} />} />
                 </div>
-
-                <p className="last-analysis-para">Last analysis: {moment(project.lastAnalysisDate).format('MMMM Do YYYY, h:mm:ss a')}</p>
             </Link>
+                
+            <div className="bug-action-container">
+                <div className="bug-action-buttons-container" style={{ visibility: projectData.qualityGateStatus !== 'PASSED'? 'visible':'hidden'  }}>
+                    <ChakraLink>
+                        <p className="bug-action-button">Raise a Bug</p>
+                    </ChakraLink>
+                    <div style={{width:'2px', height:"20px", backgroundColor:'#ccc', marginLeft:'10px', marginRight:'10px'}}  />
+                    <ChakraLink>
+                        <p className="bug-action-button">Request Exceptional Approval</p>
+                    </ChakraLink>
+                </div>
+                <p className="last-analysis-para">Last analysis: {moment(project.lastAnalysisDate).format('MMMM Do YYYY, h:mm:ss a')}</p>
+            </div>
+            
         </div> 
     )
 }

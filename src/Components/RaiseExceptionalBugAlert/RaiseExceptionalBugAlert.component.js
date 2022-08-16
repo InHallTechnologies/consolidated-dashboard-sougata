@@ -1,10 +1,12 @@
 import './RaiseExceptionalBugAlert.styles.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, Link, Textarea, useDisclosure } from '@chakra-ui/react';
 import RaiseExceptionConfirmation from '../RaiseExceptionConfirmation/RaiseExceptionConfirmation.component';
-import { push, ref, set } from 'firebase/database';
+import { onValue, push, ref, set } from 'firebase/database';
 import { firebaseAuth, firebaseDatabase } from '../../backend/firebase-handler';
 import exceptionalApproval from '../../entities/exceptionalApproval';
+import { sendExceptionalRequestMail } from '../../backend/mail-handler';
+import AcceptOrRejectRequest from '../AcceptOrRejectRequest/AcceptOrRejectRequest.component';
 
 const RaiseExceptionalBugAlert = ({ projectId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -12,29 +14,59 @@ const RaiseExceptionalBugAlert = ({ projectId }) => {
     const [reasons, setReason] = useState('');
     const handleChange = event => setReason(event.target.value);
     const firebaseUser = firebaseAuth.currentUser;
+    const [exceptionalStatus, setExceptionalStatus] = useState("");
+
+    useEffect(() => {
+      const checkStatus = async () => {
+        const approvalRequestRef = ref(firebaseDatabase, `EXCEPTIONAL_APPROVAL_REQUEST/${projectId}`);
+        onValue(approvalRequestRef, (dataSnapshot) => {
+          if (dataSnapshot.exists()) {
+            const request = dataSnapshot.val();
+            setExceptionalStatus(request.status)
+          }
+        })
+      }
+      checkStatus();
+    }, [])
 
     const handleConfirmed = async () => {
-        onClose();
-        const exeptionalRef = ref(firebaseDatabase, `EXCEPTIONAL_APPROVAL_REQUEST/${projectId}/${firebaseUser.uid}`);
+        const exeptionalRef = ref(firebaseDatabase, `EXCEPTIONAL_APPROVAL_REQUEST/${projectId}`);
         const key = push(exeptionalRef).key;
         const approval = {
             ...exceptionalApproval,
             projectId: projectId,
             reason: reasons,
             requestByUID: firebaseUser.uid,
-            requestUID: key
+            requestUID: key,   
         }
-        const exeptionalRequestRef = ref(firebaseDatabase, `EXCEPTIONAL_APPROVAL_REQUEST/${projectId}/${firebaseUser.uid}/${key}`);
-        await set(exeptionalRequestRef, approval);
-        onClose();
-        setReason("")
+        const exeptionalRequestRef = ref(firebaseDatabase, `EXCEPTIONAL_APPROVAL_REQUEST/${projectId}`);
+        const response = await sendExceptionalRequestMail(approval)
+        if (response){
+          await set(exeptionalRequestRef, approval);
+          alert("Done");
+          onClose();
+          setReason("")
+        }else {
+          alert("Unable to process the request")
+        }
+        
+       
     }
     
     return (
       <>
-        <Link onClick={onOpen}>
+        {
+          exceptionalStatus
+          ?
+          <div>
+            <AcceptOrRejectRequest status={exceptionalStatus} />
+          </div>
+          :
+          <Link onClick={onOpen}>
             <p className="bug-action-button">Request Exceptional Approval</p>
-        </Link>
+          </Link>
+        }
+       
         <AlertDialog
           motionPreset='slideInBottom'
           leastDestructiveRef={cancelRef}

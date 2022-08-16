@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import './SonarProjectListArch.styles.css';
 import hashtag from '../../assets/hashtag.svg';
 import ProjectInfoContainer from "../ProjectInfoContainer/ProjectInfoContainer.component";
@@ -10,11 +10,13 @@ import moment from "moment";
 import { gerProjectDetails, getProjectMetaData } from "../../backend/sonar-cloud-api";
 import { Link } from "react-router-dom";
 import { Link as ChakraLink } from '@chakra-ui/react'
+import context from "../../context/app-context";
 
 const SonarProjectListArch = ({ project, index }) => {
     const [projectData, setProjectData] = useState({});
     const [loading, setLoading] = useState(true);
-    
+    const [userData, setUserData] = useContext(context)    
+
     useEffect(() => {
         const fetchDetails = async () => {
             let temp = {};
@@ -64,10 +66,16 @@ const SonarProjectListArch = ({ project, index }) => {
                 
             <div className="bug-action-container">
                 <div className="bug-action-buttons-container" style={{ visibility: projectData.qualityGateStatus !== 'PASSED'? 'visible':'hidden'  }}>
-                    <ChakraLink>
-                        <p className="bug-action-button">Raise a Bug</p>
-                    </ChakraLink>
-                    <div style={{width:'2px', height:"20px", backgroundColor:'#ccc', marginLeft:'10px', marginRight:'10px'}}  />
+                    {
+                        userData.accessType !== "DEVELOPER" 
+                        &&
+                        <div>
+                            <ChakraLink>
+                                <p className="bug-action-button">Raise a Bug</p>
+                            </ChakraLink>
+                            <div style={{width:'2px', height:"20px", backgroundColor:'#ccc', marginLeft:'10px', marginRight:'10px'}}  /> 
+                        </div>
+                    }
                     <ChakraLink>
                         <p className="bug-action-button">Request Exceptional Approval</p>
                     </ChakraLink>

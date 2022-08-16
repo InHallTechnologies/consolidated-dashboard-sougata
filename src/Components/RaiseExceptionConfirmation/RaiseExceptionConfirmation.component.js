@@ -5,12 +5,15 @@ import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogConten
 function RaiseExceptionConfirmation({ projectId, reason, handleYesClicked }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef()
+
+   
   
     return (
       <>
         <Button colorScheme='teal' ml={3} onClick={onOpen}>
             Submit
         </Button>
+        
         <AlertDialog
           motionPreset='slideInBottom'
           leastDestructiveRef={cancelRef}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import './IZAnalyserProjectListArch.styles.css';
 import hashtag from '../../assets/hashtag.svg';
 import ProjectInfoContainer from "../ProjectInfoContainer/ProjectInfoContainer.component";
@@ -11,11 +11,13 @@ import { getProjectMetaData, gerProjectDetails, getQualityGate } from "../../bac
 import { Link } from "react-router-dom";
 import { Link as ChakraLink } from '@chakra-ui/react';
 import RaiseExceptionalBugAlert from '../RaiseExceptionalBugAlert/RaiseExceptionalBugAlert.component';
+import context from "../../context/app-context";
 
 const IZAnalyserProjectListArch = ({ project, index }) => {
     const [projectData, setProjectData] = useState({});
     const [qualityGate, setQualityGate] = useState("");
     const [loading, setLoading] = useState(true);
+    const [userData, setUserData] = useContext(context)
    
     useEffect(() => {
         const fetchDetails = async () => {
@@ -51,7 +53,7 @@ const IZAnalyserProjectListArch = ({ project, index }) => {
 
 
     return (
-        <div className="sonar-project-list-arch-container scale-up-center">
+        <div id={project.key} className="sonar-project-list-arch-container scale-up-center">
             <Link to={`/iz-analyser/${project.key}`}>
 
                 <div className="project-top-info-container">
@@ -80,11 +82,18 @@ const IZAnalyserProjectListArch = ({ project, index }) => {
             </Link>
 
             <div className="bug-action-container">
-                <div className="bug-action-buttons-container" style={{ visibility: projectData.qualityGateStatus !== 'PASSED'? 'visible':'hidden'  }}>
-                    <ChakraLink>
-                        <p className="bug-action-button">Raise a Bug</p>
-                    </ChakraLink>
-                    <div style={{width:'2px', height:"20px", backgroundColor:'#ccc', marginLeft:'10px', marginRight:'10px'}}  />
+                <div className="bug-action-buttons-container" style={{ visibility: qualityGate !== 'PASSED'? 'visible':'hidden'  }}>
+                    {
+                        userData.accessType !== "DEVELOPER"
+                        &&
+                        <div style={{display:'flex'}}>
+                            <ChakraLink href="https://dev.azure.com/GlobalInsight/Consolidated%2520Dashboard" >
+                                <p className="bug-action-button">Raise a Bug</p>
+                            </ChakraLink>
+                            <div style={{width:'1.4px', height:"20px", backgroundColor:'#ccc', marginLeft:'10px', marginRight:'10px'}}  />
+                            
+                        </div>
+                    }
                     <RaiseExceptionalBugAlert projectId={project.key} />
                 </div>
                 <p className="last-analysis-para">Last analysis: {moment(project.lastAnalysisDate).format('MMMM Do YYYY, h:mm:ss a')}</p>

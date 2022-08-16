@@ -53,7 +53,6 @@ export const getProjectFullData = (key) => {
         projectDetails.component.measures.forEach(item => {
             temp[item.metric] = item.value
         });
-        console.log(singleData)
         
     
         const details = [

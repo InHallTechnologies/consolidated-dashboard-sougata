@@ -21,7 +21,7 @@ const AuthPage = () => {
             const password = passwordRef.current.value;
             console.log(emailId, password)
             await signInWithEmailAndPassword(firebaseAuth, emailId, password)
-            navigate('/')
+            // navigate('/')
         }catch(err) {
             setLoading(false);
             alert(err);

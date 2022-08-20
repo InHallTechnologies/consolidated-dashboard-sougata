@@ -24,7 +24,8 @@ const RaiseExceptionalBugAlert = ({ projectId }) => {
             const request = dataSnapshot.val();
             setExceptionalStatus(request.status)
           }
-        })
+        }
+        )
       }
       checkStatus();
     }, [])
@@ -59,7 +60,7 @@ const RaiseExceptionalBugAlert = ({ projectId }) => {
           exceptionalStatus
           ?
           <div>
-            <AcceptOrRejectRequest status={exceptionalStatus} />
+            <AcceptOrRejectRequest status={exceptionalStatus} projectId={projectId} />
           </div>
           :
           <Link onClick={onOpen}>

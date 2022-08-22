@@ -7,20 +7,20 @@ import complexity from '../assets/complexity.png';
 import flag from '../assets/voilations.png';
 
 export const getProjectList = async () => {
-    const response = await axios.get('https://sonar-clone-sever.vercel.app/izanalyser/get-projects');
+    const response = await axios.get('https://us-central1-thenewzkit.cloudfunctions.net/helloWorld/izanalyser/get-projects');
     return await response.data
 }
 
 export const gerProjectDetails = async (key) => {
-    const response = await axios.get(`https://sonar-clone-sever.vercel.app/izanalyser/measures?projectKey=${key}`);
+    const response = await axios.get(`https://us-central1-thenewzkit.cloudfunctions.net/helloWorld/izanalyser/measures?projectKey=${key}`);
     
     return await response.data
 }
 
 export const getProjectMetaData = async (key) => {
-    const BugResponse = await axios.get(`https://sonar-clone-sever.vercel.app/izanalyser/project-meta-data?projectKey=${key}&type=BUG`);
-    const CodeSmellResponse = await axios.get(`https://sonar-clone-sever.vercel.app/izanalyser/project-meta-data?projectKey=${key}&type=CODE_SMELL`);
-    const VulnerabilityResponse = await axios.get(`https://sonar-clone-sever.vercel.app/izanalyser/project-meta-data?projectKey=${key}&type=VULNERABILITY`);
+    const BugResponse = await axios.get(`https://us-central1-thenewzkit.cloudfunctions.net/helloWorld/izanalyser/project-meta-data?projectKey=${key}&type=BUG`);
+    const CodeSmellResponse = await axios.get(`https://us-central1-thenewzkit.cloudfunctions.net/helloWorld/izanalyser/project-meta-data?projectKey=${key}&type=CODE_SMELL`);
+    const VulnerabilityResponse = await axios.get(`https://us-central1-thenewzkit.cloudfunctions.net/helloWorld/izanalyser/project-meta-data?projectKey=${key}&type=VULNERABILITY`);
    
     const bugs = await BugResponse.data.total;
     const vulnerabilities = await VulnerabilityResponse.data.total
@@ -35,12 +35,12 @@ export const getProjectMetaData = async (key) => {
 }
 
 export const getQualityGate = async (key) => {
-    const response = await axios.get(`https://sonar-clone-sever.vercel.app/izanalyser/quality-gate?projectKey=${key}`)
+    const response = await axios.get(`https://us-central1-thenewzkit.cloudfunctions.net/helloWorld/izanalyser/quality-gate?projectKey=${key}`)
     return await response.data;
 }
 
 const getSingleProjectDetail = async (key) => {
-    const response = await axios.get(`https://sonar-clone-sever.vercel.app/izanalyser/get-single-project-detail?projectKey=${key}`)
+    const response = await axios.get(`https://us-central1-thenewzkit.cloudfunctions.net/helloWorld/izanalyser/get-single-project-detail?projectKey=${key}`)
     return await response.data;
 }
 

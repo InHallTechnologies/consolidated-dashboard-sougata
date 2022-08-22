@@ -87,7 +87,7 @@ const IZAnalyserProjectListArch = ({ project, index }) => {
                         userData.accessType !== "DEVELOPER"
                         &&
                         <div style={{display:'flex'}}>
-                            <ChakraLink href="https://dev.azure.com/GlobalInsight/Consolidated%2520Dashboard" >
+                            <ChakraLink href="https://dev.azure.com/GlobalInsight/Consolidated%20Dashboard" >
                                 <p className="bug-action-button">Raise a Bug</p>
                             </ChakraLink>
                             <div style={{width:'1.4px', height:"20px", backgroundColor:'#ccc', marginLeft:'10px', marginRight:'10px'}}  />

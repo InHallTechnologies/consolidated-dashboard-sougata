@@ -28,7 +28,7 @@ function AcceptOrRejectRequest({ status, projectId }) {
         const exceptionalApprovalRef = ref(firebaseDatabase, `EXCEPTIONAL_APPROVAL_REQUEST/${projectId}`);
         onValue(exceptionalApprovalRef, async (snapshot) => {
           const request = await snapshot.val();
-          const status = await sendExceptionalRequestResponse(request, acceptStatus, 'rv.rishabhverma1996@gmail.com');
+          const status = await sendExceptionalRequestResponse(request, acceptStatus, 'Sougata.choudhury@diageo.com');
           if (status) {
             resolve("Done");
           }else {

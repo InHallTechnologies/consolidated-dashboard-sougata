@@ -15,6 +15,7 @@ const RaiseExceptionalBugAlert = ({ projectId }) => {
     const handleChange = event => setReason(event.target.value);
     const firebaseUser = firebaseAuth.currentUser;
     const [exceptionalStatus, setExceptionalStatus] = useState("");
+    const [statusUpdating, setStatusUpdating] = useState(false);
 
     useEffect(() => {
       const checkStatus = async () => {
@@ -31,6 +32,7 @@ const RaiseExceptionalBugAlert = ({ projectId }) => {
     }, [])
 
     const handleConfirmed = async () => {
+      setStatusUpdating(true);
         const exeptionalRef = ref(firebaseDatabase, `EXCEPTIONAL_APPROVAL_REQUEST/${projectId}`);
         const key = push(exeptionalRef).key;
         const approval = {
@@ -50,7 +52,7 @@ const RaiseExceptionalBugAlert = ({ projectId }) => {
         }else {
           alert("Unable to process the request")
         }
-        
+        setStatusUpdating(false)
        
     }
     
@@ -85,10 +87,10 @@ const RaiseExceptionalBugAlert = ({ projectId }) => {
               <Textarea className='text-area' fontSize={'0.9rem'} fontWeight='bold' value={reasons} onChange={handleChange} />
             </AlertDialogBody>
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button disabled={statusUpdating} ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
-              <RaiseExceptionConfirmation reason={reasons} projectId={projectId} handleYesClicked={handleConfirmed} />
+              <RaiseExceptionConfirmation statusUpdating={statusUpdating} reason={reasons} projectId={projectId} handleYesClicked={handleConfirmed} />
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

@@ -2,7 +2,7 @@ import React from 'react';
 import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure } from '@chakra-ui/react';
 
 
-function RaiseExceptionConfirmation({ projectId, reason, handleYesClicked }) {
+function RaiseExceptionConfirmation({ projectId, reason, handleYesClicked, statusUpdating }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef()
 
@@ -34,10 +34,10 @@ function RaiseExceptionConfirmation({ projectId, reason, handleYesClicked }) {
                 </p>
             </AlertDialogBody>
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button disabled={statusUpdating} ref={cancelRef} onClick={onClose}>
                 No
               </Button>
-              <Button colorScheme='teal' ml={3} onClick={handleYesClicked}>
+              <Button disabled={statusUpdating} colorScheme='teal' ml={3} onClick={handleYesClicked}>
                 Yes
               </Button>
             </AlertDialogFooter>

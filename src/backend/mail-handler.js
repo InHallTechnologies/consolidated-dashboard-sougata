@@ -4,7 +4,7 @@ import axios from "axios"
 export const sendExceptionalRequestMail = async (request) => {
     try {
         const { projectId, reason, requestByUID, requestUID, requestTime } = request;
-        await axios.get(`http://localhost:3001/send-mail/send-exceptional-request?projectId=${projectId}&userId=${requestByUID}&time=${requestTime}&reason=${reason}&requestUID=${requestUID}`);
+        await axios.get(`https://sonar-clone-sever.vercel.app/send-mail/send-exceptional-request?projectId=${projectId}&userId=${requestByUID}&time=${requestTime}&reason=${reason}&requestUID=${requestUID}`);
         return true
     }catch(err) {
         return false;
@@ -14,7 +14,7 @@ export const sendExceptionalRequestMail = async (request) => {
 export const sendExceptionalRequestResponse = async (request, status, mailTo) => {
     try {
         const { projectId, reason, requestByUID, requestUID, requestTime } = request;
-        await axios.get(`http://localhost:3001/send-mail/send-exceptional-request-mail-response?projectId=${projectId}&userId=${requestByUID}&time=${requestTime}&reason=${reason}&requestUID=${requestUID}&status=${status}&mailTo=${mailTo}`);
+        await axios.get(`https://sonar-clone-sever.vercel.app/send-mail/send-exceptional-request-mail-response?projectId=${projectId}&userId=${requestByUID}&time=${requestTime}&reason=${reason}&requestUID=${requestUID}&status=${status}&mailTo=${mailTo}`);
         return true
     }catch(err) {
         return false;

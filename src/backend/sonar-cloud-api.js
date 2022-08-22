@@ -7,22 +7,22 @@ import complexity from '../assets/complexity.png';
 import flag from '../assets/voilations.png';
 
 export const getProjectList = async () => {
-    const response = await axios.get('http://localhost:3001/get-list');
+    const response = await axios.get('https://sonar-clone-sever.vercel.app/get-list');
     return await response.data
 }
 
 export const getProjectDetails = async (key) => {
-    const response = await axios.get(`http://localhost:3001/project-last-analysis?projectKey=${key}`);
+    const response = await axios.get(`https://sonar-clone-sever.vercel.app/project-last-analysis?projectKey=${key}`);
     return await response.data
 }
 
 export const gerProjectDetails = async (key) => {
-    const response = await axios.get(`http://localhost:3001/measures?projectKey=${key}`);
+    const response = await axios.get(`https://sonar-clone-sever.vercel.app/measures?projectKey=${key}`);
     return await response.data
 }
 
 export const getProjectMetaData = async (key) => {
-    const response = await axios.get(`http://localhost:3001/project-meta-data?projectKey=${key}`);
+    const response = await axios.get(`https://sonar-clone-sever.vercel.app/project-meta-data?projectKey=${key}`);
     return await response.data
 }
 
